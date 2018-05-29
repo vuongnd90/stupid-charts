@@ -1,0 +1,12 @@
+"use strict";
+exports.__esModule = true;
+var express = require("express");
+var path = require("path");
+var HomeController = require("./controllers/home");
+var app = express();
+app.set('port', process.env.PORT || 30001);
+app.set("views", path.join(__dirname, "../views"));
+app.set('view engine', 'pug');
+app.use(express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }));
+app.get('/', HomeController.index);
+exports["default"] = app;
