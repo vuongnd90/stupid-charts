@@ -1,16 +1,27 @@
 import * as express from 'express';
 import * as path from 'path';
+import * as bodyParser from 'body-parser';
+
 import * as HomeController from './controllers/home';
+import { checkAuth } from './midleware/basicAuth';
 
-const app = express();
+export class Server {
+    public app: express.Application;
+    constructor() {
+        this.app = express();
+        this.config();
+    }
 
-app.set('port', process.env.PORT || 3001);
-app.set("views", path.join(__dirname, "../views"));
-app.set('view engine', 'pug');
-app.use(
-    express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
-);
+    private config() {
+        this.app.set('port', process.env.PORT || 3002);
+        this.app.set("views", path.join(__dirname, "../views"));
+        this.app.set('view engine', 'pug');
 
-app.get('/', HomeController.index)
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }));
 
-export default app;
+        this.app.use(checkAuth);
+        this.app.get('/', HomeController.index)
+    }
+}
