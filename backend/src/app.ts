@@ -13,7 +13,7 @@ export class Server {
     }
 
     private config() {
-        this.app.set('port', process.env.PORT || 3002);
+        this.app.set('port', process.env.PORT || 3003);
         this.app.set("views", path.join(__dirname, "../views"));
         this.app.set('view engine', 'pug');
 
