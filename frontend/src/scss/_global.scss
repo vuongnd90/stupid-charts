@@ -1,0 +1,9 @@
+$header_height: 50px;
+
+.main-header {
+    height: #{$header_height};
+}
+
+html, body {
+    height: 100%;
+}
